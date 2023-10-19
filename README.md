@@ -2,7 +2,7 @@
 더조은아카데미 스프링부트 실습
 
 ### 강의 다시보기
-<a href="https://www.youtube.com/watch?v=tKwEOt0w3YU&list=PL4C2AmBC9jOZjbC1ioxj7Tu5ruAMbWr5J" target="_blank">유튜브 동영상 (강의 다시보기)</a>
+<a href="https://www.youtube.com/watch?v=PL4C2AmBC9jOZQeI95ugXg-jvMshkFREkm" target="_blank">유튜브 동영상 (강의 다시보기)</a>
 
 ## 커리큘럼
 
