@@ -77,7 +77,7 @@ public class FileController {
 
 
     @DeleteMapping("")
-    public ResponseEntity<String> deleteFile(@RequestBody Files file) throws Exception {
+    public ResponseEntity<String> deleteFile(Files file) throws Exception {
         int fileNo = file.getFileNo();
         log.info("fileNo : " + fileNo);
 

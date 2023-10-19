@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-BoardApplication<board>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.joeun.board.BoardApplication",
+            "projectName": "board",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
