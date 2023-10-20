@@ -74,7 +74,8 @@
                 // DELETE 메소드로 Content-Type 지정 안 하면, 데이터가 body 담기지 않는다.
                 // - 쿼리스트링(요청 파라미터)에 데이터를 넘겨준다.
                 request.open('DELETE', '/file?fileNo=' + fileNo, true)
-                request.send( data )
+                request.send( )
+
                 // DELETE 메소드로 Content-Type 지정하면, 데이터가 body 에 담긴다.
                 // request.open('DELETE', '/file' + fileNo, true)
                 // request.setRequestHeader("Content-Type", "application/json")
