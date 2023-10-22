@@ -11,11 +11,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import com.joeun.springsecurity.security.CustomUserDetailsService;
 import com.joeun.springsecurity.security.LoginSuccessHandler;
 
 import lombok.extern.slf4j.Slf4j;
@@ -57,28 +59,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 로그인 설정
         http.formLogin()
             .defaultSuccessUrl("/")         // 로그인 성공 시, URL : "/"(기본값)
-            .loginPage("/login")                    // 커스텀 로그인 페이지 지정 (default:/login)
-            .loginProcessingUrl("/loginPro")// 커스럼 로그인 요청 처리 경로 지정 (default:/login)
-            .usernameParameter("id")        // 아이디 요청 파라미터 이름 설정  (default:username)
-            .passwordParameter("pw")        // 비밀번호 요청 파라미터 이름 설정 (default:password)
-            .successHandler( authenticationSuccessHandler() ) // 로그인 성공 처리 빈을 지정
+            // .loginPage("/login")                    // 커스텀 로그인 페이지 지정 (default:/login)
+            // .loginProcessingUrl("/loginPro")// 커스럼 로그인 요청 처리 경로 지정 (default:/login)
+            // .usernameParameter("id")        // 아이디 요청 파라미터 이름 설정  (default:username)
+            // .passwordParameter("pw")        // 비밀번호 요청 파라미터 이름 설정 (default:password)
+            // .successHandler( authenticationSuccessHandler() ) // 로그인 성공 처리 빈을 지정
             .permitAll()                                      // 로그인 폼은 모든 사용자에게 허용
             ;
 
         // 로그아웃 설정
         http.logout()
-            .logoutSuccessUrl("/login")      // 로그아웃 성공 시, URL : "/login?logout" (기본값)
-            .logoutUrl("/logout")                   // 로그아웃 요청 처리 경로 지정 (default:logout)
+            // .logoutSuccessUrl("/login")      // 로그아웃 성공 시, URL : "/login?logout" (기본값)
+            // .logoutUrl("/logout")                   // 로그아웃 요청 처리 경로 지정 (default:logout)
             .permitAll()
             ;
 
         // 자동로그인 설정
-        http.rememberMe()
-            .key("joeun")
-            // DataSource 가 등록된 PersistentRepository 토큰정보 객체 
-            .tokenRepository( tokenRepository() )
-            .tokenValiditySeconds( 60 * 60 * 24 * 7 )                    // 토큰 유효기간 : 7일
-            ;
+        // http.rememberMe()
+        //     .key("joeun")
+        //     // DataSource 가 등록된 PersistentRepository 토큰정보 객체 
+        //     .tokenRepository( tokenRepository() )
+        //     .tokenValiditySeconds( 60 * 60 * 24 * 7 )                    // 토큰 유효기간 : 7일
+        //     ;
 
 
         // CSRF 방지 기능 비활성화 설정
@@ -93,29 +95,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 인증 방식 : 인메모리 방식
         // auth.inMemoryAuthentication()               
         //     // .withUser("아이디").password("비밀번호").roles("권한")
-        //     // passwordEncoder.encode("비밀번호")     :   비밀번호 암화화
+        //     // passwordEncoder.encode("비밀번호")     :   비밀번호 암호화
+        //     // BCryptPasswordEncoder 사용
         //     .withUser("user").password(passwordEncoder.encode("123456")).roles("USER")
         //     .and()
         //     .withUser("admin").password(passwordEncoder.encode("123456")).roles("ADMIN")
         //     ;
+            // NoOpPasswordEncoder 사용
+            // .withUser("user").password("123456").roles("USER")
+            // .and()
+            // .withUser("admin").password("123456").roles("ADMIN")
+            // ;
         
         // 인증 방식 : jdbc 인증
-        String sql1 = " SELECT user_id as username, user_pw as password, enabled "
-                    + " FROM user "
-                    + " WHERE user_id = ? ";
+        // String sql1 = " SELECT user_id as username, user_pw as password, enabled "
+        //             + " FROM user "
+        //             + " WHERE user_id = ? ";
 
-        String sql2 = " SELECT user_id as username, auth " 
-                    + " FROM user_auth "
-                    + " WHERE user_id = ? ";
+        // String sql2 = " SELECT user_id as username, auth " 
+        //             + " FROM user_auth "
+        //             + " WHERE user_id = ? ";
 
-        auth.jdbcAuthentication()
-            // 데이터 소스 등록
-            .dataSource( dataSource )
-            // 인증 쿼리    (아이디/비밀번호/활성여부)
-            .usersByUsernameQuery(sql1)
-            // 인가 쿼리    (아이디/권한)
-            .authoritiesByUsernameQuery(sql2)
-            // 비밀번호 암호화 방식
+        // auth.jdbcAuthentication()
+        //     // 데이터 소스 등록
+        //     .dataSource( dataSource )
+        //     // 인증 쿼리    (아이디/비밀번호/활성여부)
+        //     .usersByUsernameQuery(sql1)
+        //     // 인가 쿼리    (아이디/권한)
+        //     .authoritiesByUsernameQuery(sql2)
+        //     // 비밀번호 암호화 방식 지정 - BCryptPasswordEncoder 또는 NoOpPasswordEncoder
+        //     .passwordEncoder( passwordEncoder );
+
+
+        // 인증 방식 : 사용자 정의 인증 (UserDetails)
+        auth.userDetailsService( CustomUserDetailsService() )
+            // 비밀번호 암호화 방식 지정 - BCryptPasswordEncoder 또는 NoOpPasswordEncoder
             .passwordEncoder( passwordEncoder );
 
 
@@ -136,6 +150,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
         return new LoginSuccessHandler();
+    }
+
+
+    @Bean
+    public UserDetailsService CustomUserDetailsService() {
+        return new CustomUserDetailsService();
     }
 
 

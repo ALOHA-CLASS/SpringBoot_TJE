@@ -1,8 +1,13 @@
 package com.joeun.springsecurity.controller;
 
+import java.security.Principal;
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -26,6 +31,16 @@ public class HomeController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping(value={"", "/"})
+    public String home(Model model, Principal principal) {
+        String loginId = principal != null ? principal.getName() : "guest";
+        model.addAttribute("loginId", loginId);
+
+        return "index";
+    }
+    
+
 
     /**
      * 로그인 화면

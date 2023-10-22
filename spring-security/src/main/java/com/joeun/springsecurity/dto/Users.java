@@ -1,6 +1,7 @@
 package com.joeun.springsecurity.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -14,5 +15,8 @@ public class Users {
     private Date regDate;
     private Date updDate;
     private int enabled;            // 휴면여부
+
+    // 권한 목록
+    List<UserAuth> authList;
 
 }
