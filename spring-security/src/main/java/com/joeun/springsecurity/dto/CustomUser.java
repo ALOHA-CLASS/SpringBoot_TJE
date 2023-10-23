@@ -27,9 +27,11 @@ public class CustomUser extends User {
 
     public CustomUser(Users users) {
         // this(), super() - 는 생성자 안에서 항상 첫번째 문장
-        super(users.getUserId(), users.getUserPw(), users.getAuthList().stream()
-                                                                       .map( (auth) -> new SimpleGrantedAuthority(auth.getAuth()))
-                                                                       .collect(Collectors.toList()));
+        super(users.getUserId()
+             ,users.getUserPw()
+             ,users.getAuthList().stream()
+                                 .map( (auth) -> new SimpleGrantedAuthority(auth.getAuth()))
+                                 .collect(Collectors.toList()));
         
         // List<UserAuth> userAuthList = users.getAuthList();
         // List<SimpleGrantedAuthority> authList = new ArrayList<SimpleGrantedAuthority>();

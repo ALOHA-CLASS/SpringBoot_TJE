@@ -14,9 +14,9 @@ public interface UserMapper {
     // 회원 조회
     public Users select(int userNo) throws Exception;
     
-    // 회원 조회 - id
-    public Users selectById(String username);
-
+    // 사용자 인증(로그인) - id
+    public Users login(String username);
+ 
     // 회원 권한 등록
     public int insertAuth(UserAuth userAuth) throws Exception;
 

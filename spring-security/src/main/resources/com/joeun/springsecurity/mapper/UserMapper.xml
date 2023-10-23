@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- namespace="매퍼 인터페이스 경로" -->
 <mapper namespace="com.joeun.springsecurity.mapper.UserMapper">
 
+    <!-- Users 매핑-->
     <resultMap type="Users" id="userMap">
         <id property="userNo" column="user_no" />
         
@@ -18,10 +19,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="regDate" column="reg_date" />
         <result property="updDate" column="upd_date" />
         
-        <collection property="authList" resultMap="authMap">
-        </collection>
+        <collection property="authList" resultMap="authMap"></collection>
     </resultMap>
         
+    <!-- UserAuth 매핑 -->
     <resultMap type="UserAuth" id="authMap">
         <result property="userId" column="user_id" />
         <result property="auth" column="auth" />
@@ -41,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <!-- 회원 조회 - id -->
-    <select id="selectById" resultMap="userMap">
+    <select id="login" resultMap="userMap">
         SELECT u.user_no
               ,u.user_id
               ,user_pw
@@ -51,9 +52,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
               ,reg_date
               ,upd_date
               ,auth
-        FROM user u LEFT OUTER JOIN user_auth auth ON u.user_id = auth.user_id
+        FROM user u LEFT OUTER JOIN user_auth auth 
+                    ON u.user_id = auth.user_id
         WHERE u.user_id = #{userId}
     </select>
+
 
     <!-- 회원 권한 등록 -->
     <insert id="insertAuth">

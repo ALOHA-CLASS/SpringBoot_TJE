@@ -10,6 +10,7 @@ public class Users {
     private int userNo;
     private String userId;
     private String userPw;
+    private String userPwCheck;     // 비밀번호 확인
     private String name;
     private String email;
     private Date regDate;

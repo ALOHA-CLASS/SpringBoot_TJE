@@ -19,6 +19,16 @@
             "projectName": "spring-security",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-LayoutApplication<layout>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.joeun.layout.LayoutApplication",
+            "projectName": "layout",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

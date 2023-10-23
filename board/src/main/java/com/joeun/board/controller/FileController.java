@@ -35,6 +35,12 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
+    /**
+     * 파일 다운로드
+     * @param fileNo
+     * @param response
+     * @throws Exception
+     */
     @GetMapping(value="/{fileNo}")
     public void fileDownload( @PathVariable("fileNo") int fileNo
                              ,HttpServletResponse response  ) throws Exception {

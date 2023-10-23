@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -32,9 +33,17 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 메인 화면
+     * @param model
+     * @param principal
+     * @return
+     */
     @GetMapping(value={"", "/"})
     public String home(Model model, Principal principal) {
+        // Principal : 현재 로그인한 사용자의 정보를 확인하는 인터페이스
         String loginId = principal != null ? principal.getName() : "guest";
+        // String loginId = principal.getName();
         model.addAttribute("loginId", loginId);
 
         return "index";
@@ -83,10 +92,30 @@ public class HomeController {
      * @throws Exception
      */
     @PostMapping(value="/join")
-    public String joinPro(Users user) throws Exception {
+    public String joinPro(Users user, HttpServletRequest request) throws Exception {
         int result = userService.insert(user);
+
+        // 회원 가입 성공 시, 바로 로그인
+        if( result > 0 ) {  
+            userService.login(user, request);
+        }
+
         return "redirect:/";
     }
+
+
+    /**
+     * 접근 거부 에러 페이지
+     * @param param
+     * @return
+     */
+    @GetMapping(value="/exception")
+    public String error(Authentication auth, Model model) {
+        log.info(auth.toString());
+        model.addAttribute("msg", "인증 거부 : " + auth.toString());
+        return "exception";
+    }
+    
     
     
     

@@ -38,7 +38,7 @@
             <tr>
                 <td>
                     <th:block th:if="${rememberId}">    <!-- ✅ -->
-                        <input type="checkbox" name="rememberId" id="remember-id" checked>
+                        <input type="checkbox" name="remember-id" id="remember-id" checked>
                     </th:block>
                     <th:block th:if="${!rememberId}">   <!-- ❌ -->
                         <input type="checkbox" name="remember-id" id="remember-id" >
@@ -46,6 +46,8 @@
                     <label for="remember-id">아이디 저장</label>
                 </td>
                 <td>
+                    <!-- 자동로그인(Remember-Md) 기능 -->
+                    <!-- remember-me 요청 파라미터로 자동 로그인 여부를 전달 -->
                     <input type="checkbox" name="remember-me" id="remember-me">
                     <label for="remember-me">자동 로그인</label>
                 </td>

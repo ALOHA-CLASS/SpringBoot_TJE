@@ -7,24 +7,36 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import com.joeun.springsecurity.security.CustomAccessDeniedHandler;
 import com.joeun.springsecurity.security.CustomUserDetailsService;
 import com.joeun.springsecurity.security.LoginSuccessHandler;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ *  스프링 시큐리티 설정 클래스
+ */
 @Slf4j
 @Configuration                  // 설정 클래스
 @EnableWebSecurity              // 해당 클래스를 스프링 시큐리티 설정 빈으로 등록
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)   
+// @EnableGlobalMethodSecurity  : 스프링 시큐리티 어노테이션 활성화를 위한 어노테이션
+// - prePostEnabled = true ➡  @PreAuthorize, @PostAuthorize 어노테이션 사용 활성화
+// - securedEnabled = true ➡  @Secured 어노테이션 사용 활성화
+// 🔐 @PreAuthorize     : 메소드 실행 전에 인가(권한) 설정
+// 🔐 @PostAuthorize    : 메소드 실행 후에 대한 인가(권한) 설정
+// 🔐 @Secured          : 메소드 실행에 대한 인가(권한) 설정
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -32,7 +44,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;          // application.properites 에 정의한 데이터 소스를 가져오는 객체
+
+    // @Autowired
+    // private CustomUserDetailsService customUserDetailsService;
     
+    // ⚙︎ 스프링 시큐리티 설정 메소드
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // 스프링 시큐리티 설정
@@ -52,18 +68,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             //  hasAnyRole()                       - 여러 권한에 대한 허용 
             //  hasRole()                          - 단일 권한에 대한 허용
             .antMatchers("/").permitAll()
-            .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-            .antMatchers("/admin/**").hasRole("ADMIN")
+            // .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+            // .antMatchers("/admin/**").hasRole("ADMIN")
             ;
 
         // 로그인 설정
         http.formLogin()
             .defaultSuccessUrl("/")         // 로그인 성공 시, URL : "/"(기본값)
-            // .loginPage("/login")                    // 커스텀 로그인 페이지 지정 (default:/login)
-            // .loginProcessingUrl("/loginPro")// 커스럼 로그인 요청 처리 경로 지정 (default:/login)
-            // .usernameParameter("id")        // 아이디 요청 파라미터 이름 설정  (default:username)
-            // .passwordParameter("pw")        // 비밀번호 요청 파라미터 이름 설정 (default:password)
-            // .successHandler( authenticationSuccessHandler() ) // 로그인 성공 처리 빈을 지정
+            .loginPage("/login")                    // 커스텀 로그인 페이지 지정 (default:/login)
+            .loginProcessingUrl("/loginPro")// 커스텀 로그인 요청 처리 경로 지정 (default:/login)
+            .usernameParameter("id")        // 아이디 요청 파라미터 이름 설정  (default:username)
+            .passwordParameter("pw")        // 비밀번호 요청 파라미터 이름 설정 (default:password)
+            .successHandler( authenticationSuccessHandler() ) // 로그인 성공 처리자 빈을 지정
             .permitAll()                                      // 로그인 폼은 모든 사용자에게 허용
             ;
 
@@ -75,19 +91,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             ;
 
         // 자동로그인 설정
-        // http.rememberMe()
-        //     .key("joeun")
-        //     // DataSource 가 등록된 PersistentRepository 토큰정보 객체 
-        //     .tokenRepository( tokenRepository() )
-        //     .tokenValiditySeconds( 60 * 60 * 24 * 7 )                    // 토큰 유효기간 : 7일
-        //     ;
+        http.rememberMe()
+            .key("joeun")
+            // DataSource 가 등록된 PersistentRepository 토큰정보 객체 
+            .tokenRepository( tokenRepository() )
+            // 토큰 유효기간 지정 : 7일 (초 단위)
+            .tokenValiditySeconds( 60 * 60 * 24 * 7 )                    
+            ;
+
+
+        // 인증 예외 처리
+        http.exceptionHandling()
+            // .accessDeniedPage("/exception")     // 접근 거부 시, 이동 경로 지정
+            .accessDeniedHandler( accessDeniedHandler() )
+            ;
 
 
         // CSRF 방지 기능 비활성화 설정
         // http.csrf().disable();
     }
 
-    // 인증 관리 메소드
+    // 👮‍♂️🔐사용자 인증 관리 메소드
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
@@ -101,11 +125,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //     .and()
         //     .withUser("admin").password(passwordEncoder.encode("123456")).roles("ADMIN")
         //     ;
-            // NoOpPasswordEncoder 사용
-            // .withUser("user").password("123456").roles("USER")
-            // .and()
-            // .withUser("admin").password("123456").roles("ADMIN")
-            // ;
+        //     NoOpPasswordEncoder 사용
+        //     .withUser("user").password("123456").roles("USER")
+        //     .and()
+        //     .withUser("admin").password("123456").roles("ADMIN")
+        //     ;
         
         // 인증 방식 : jdbc 인증
         // String sql1 = " SELECT user_id as username, user_pw as password, enabled "
@@ -128,9 +152,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         // 인증 방식 : 사용자 정의 인증 (UserDetails)
-        auth.userDetailsService( CustomUserDetailsService() )
+        auth.userDetailsService( customUserDetailsService() )
             // 비밀번호 암호화 방식 지정 - BCryptPasswordEncoder 또는 NoOpPasswordEncoder
-            .passwordEncoder( passwordEncoder );
+            .passwordEncoder( passwordEncoder )
+            ;
 
 
 
@@ -138,6 +163,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     // PersistentRepository 토큰정보 객체 - 빈 등록
+    @Bean
     public PersistentTokenRepository tokenRepository() {
         // JdbcTokenRepositoryImpl : 토큰 저장 데이터 베이스를 등록하는 객체
         JdbcTokenRepositoryImpl repositoryImpl = new JdbcTokenRepositoryImpl(); 
@@ -153,19 +179,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+    // 사용자 정의 인증 구현 클래스 - 빈 등록
     @Bean
-    public UserDetailsService CustomUserDetailsService() {
+    public UserDetailsService customUserDetailsService() {
         return new CustomUserDetailsService();
     }
 
-
     // 인증 관리자 클래스 - 빈 등록
-    // @Bean
-    // public AuthenticationManager authenticationManager() throws Exception {
-    //     return super.authenticationManagerBean();
-    // }
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-
+    // 접근 거부 처리자 - 빈 등록
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
 
 
     
