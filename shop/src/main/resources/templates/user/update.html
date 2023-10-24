@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/UI/user/layout/user_layout}"
+      >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원정보 수정</title>
+
+</head>
+<body layout:fragment="content">
+
+    <div class="container p-4">
+        <h1 class="text-center my-3">회원정보 수정</h1>
+
+        <!-- 👨‍💻상위 태그 th:object="${객체명}" -->
+        <!--    하위 태그 th:value="*{변수명}" -->
+        <!--    하위 태그 th:field="*{변수명}"  
+                    ➡ id(변수명), name(변수명), value(변수값) 속성을 자동을 생성 -->
+        <form class="needs-validation" novalidate action="/user/update" method="post" th:object="${user}">   
+            <!-- csrf -->
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+            <div class="row g-3">
+  
+              <div class="col-12">
+                <label for="userId" class="form-label">아이디</label>
+                <div class="input-group has-validation">
+                  <!-- <span class="input-group-text">아이디</span> -->
+                  <input type="text" class="form-control"  placeholder="아이디" required
+                         th:field="*{userId}">
+                  <div class="invalid-feedback">
+                    Your username is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label for="userPw" class="form-label">비밀번호</label>
+                <div class="input-group has-validation">
+                  <input type="password" class="form-control" id="userPw" placeholder="비밀번호" required
+                         name="userPw">
+                  <div class="invalid-feedback">
+                    Your username is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label for="userPwCheck" class="form-label">비밀번호 확인</label>
+                <div class="input-group has-validation">
+                  <input type="password" class="form-control" id="userPwCheck" placeholder="비밀번호 확인" required
+                         name="userPwCheck">
+                  <div class="invalid-feedback">
+                    Your username is required.
+                  </div>
+                </div>
+              </div>
+  
+              <div class="col-12">
+                <label for="name" class="form-label">이름</label>
+                <input type="text" class="form-control" placeholder="이름"
+                       th:field="*{name}">
+                <div class="invalid-feedback">
+                  Please enter a valid email address for shipping updates.
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label for="email" class="form-label">이메일 <span class="text-body-secondary">(선택사항)</span></label>
+                <input type="email" class="form-control" placeholder="email@example.com"
+                       th:field="*{email}">
+                <div class="invalid-feedback">
+                  Please enter a valid email address for shipping updates.
+                </div>
+              </div>
+  
+            </div>
+  
+            <hr class="my-4">
+  
+            <div class="btn-box d-grid gap-2">
+                <button type="submit" class="btn btn-outline-primary btn-lg">회원정보 수정</button>
+            </div>
+        </form>
+    
+    
+
+    </div>
+</body>
+</html>

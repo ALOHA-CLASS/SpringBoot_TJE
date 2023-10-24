@@ -74,6 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests((authorize) -> authorize
                                 .antMatchers("/**").permitAll()
+                                .antMatchers("/css/**", "/js/**", "/img/**").permitAll()    // /static/~ 정적자원 인가처리
                                 .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                                 .antMatchers("/admin/**").hasRole("ADMIN")
                                 // anyRequest()         : 모든(이외의) 요청을 지정
@@ -119,6 +120,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout( (logout) -> logout
                                     .logoutSuccessUrl("/login")
                                     .logoutUrl("/logout")  
+                                    // 쿠키 삭제
+                                    .deleteCookies("remember-id"
+                                                                        ,"remember-me"
+                                                                        ,"JSESSIONID")
+                                    .invalidateHttpSession(true)        // 세션 무효화
                                     .permitAll()
                     );
 
