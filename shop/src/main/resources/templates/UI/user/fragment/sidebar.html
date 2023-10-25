@@ -9,18 +9,22 @@
           </div>
           <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
             <ul class="nav nav-pills flex-column">
-              <li class="nav-item">
-                <a href="/user" class="nav-link d-flex align-items-center gap-2" aria-current="page" >
-                  <svg class="bi"><use xlink:href="#house-fill"/></svg>
-                  마이 페이지
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/user/update" class="nav-link d-flex align-items-center gap-2" >
-                  <svg class="bi"><use xlink:href="#file-earmark"/></svg>
-                  회원정보 수정
-                </a>
-              </li>
+              <!-- 회원 메뉴 -->
+              <th:block sec:authorize="isAuthenticated()">
+                <li class="nav-item">
+                  <a href="/user" class="nav-link d-flex align-items-center gap-2" aria-current="page" >
+                    <svg class="bi"><use xlink:href="#house-fill"/></svg>
+                    마이 페이지
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/user/update" class="nav-link d-flex align-items-center gap-2" >
+                    <svg class="bi"><use xlink:href="#file-earmark"/></svg>
+                    회원정보 수정
+                  </a>
+                </li>
+              </th:block>
+
               <li class="nav-item">
                 <a href="/user/order" class="nav-link d-flex align-items-center gap-2" >
                   <svg class="bi"><use xlink:href="#cart"/></svg>
@@ -36,6 +40,8 @@
       </div>
 
       <script>
+        // URL : http://localhost:8080/user/update
+        // window.location.pathname : /user/update
         $('[href="' + window.location.pathname + '"]').addClass('active')
         
       </script>

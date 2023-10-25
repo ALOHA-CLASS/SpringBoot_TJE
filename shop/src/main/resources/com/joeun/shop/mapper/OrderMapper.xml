@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="매퍼 인터페이스 경로" -->
+<mapper namespace="com.joeun.shop.mapper.OrderMapper">
+
+    <!-- 전체 주문 목록 -->
+    <select id="list" resultType="Order">
+        SELECT *
+        FROM order
+    </select>
+
+    <!-- 회원 주문 내역 조회 -->
+    <select id="listByUserId" resultType="Order">
+        SELECT o.order_no           
+              ,o.phone               
+              ,o.order_pw            
+              ,io.product_id         
+              ,io.amount             
+              ,p.*                   
+        FROM `order` o LEFT JOIN product_io io ON o.order_no = io.order_no
+                     LEFT JOIN product p ON p.product_id = io.product_id
+        WHERE o.user_id = #{userId}
+    </select>
+
+    <!-- 비회원 주문 내역 조회 -->
+    <select id="listByGuest" resultType="Order">
+        SELECT o.order_no           -- 주문번호
+              ,o.phone              -- 비회원 전화번호
+              ,o.order_pw           -- 비회원 주문 비밀번호
+              ,io.product_id        -- 상품 ID
+              ,io.amount            -- 입출고 개수
+              ,p.*                  -- 상품 정보
+        FROM `order` o LEFT JOIN product_io io ON o.order_no = io.order_no
+                     LEFT JOIN product p ON p.product_id = io.product_id
+        WHERE o.phone = #{phone}
+          AND o.order_pw = #{orderPw}
+    </select>
+
+    <!-- 주문 조회 -->
+    <select id="select" resultType="Order">
+        SELECT *
+        FROM order
+        WHERE order_no = #{orderNo}
+    </select>
+
+    <!-- 주문 등록 -->
+    <insert id="insert">
+        INSERT INTO order ( 
+                        ship_name, zip_code, country, address, date, 
+                        order_pw, user_id, total_price, phone
+                          )
+        VALUES (
+            #{shipName}, #{zipCode}, #{country}, #{address}, #{date},
+            #{orderPw}, #{userId}, #{totalPrice}, #{phone}
+        )
+    </insert>
+
+    <!-- 주문 수정 -->
+    <update id="update">
+        UPDATE order
+           SET ship_name = #{shipName}
+              ,zip_code = #{zipCode}
+              ,country = #{country}
+              ,address = #{address}
+              ,date = #{date}
+              ,order_pw = #{orderPw}
+              ,user_id = #{userId}
+              ,total_price = #{totalPrice}
+              ,phone = #{phone}
+        WHERE order_no = #{orderNo}
+    </update>
+
+    <!-- 주문 삭제 -->
+    <delete id="delete">
+        DELETE FROM order
+        WHERE order_no = #{orderNo}
+    </delete>
+
+
+    <!-- 합계 조회 - 주문 총액, 주문 총 수량 -->
+    <select id="sumOrder" resultType="Order">
+        SELECT SUM(amount * unit_price) sum_total_price
+              ,SUM(amount) sum_amount
+          FROM `order` o LEFT JOIN product_io io ON o.order_no = io.order_no
+                         LEFT JOIN product p ON p.product_id = io.product_id
+         WHERE o.user_id = #{userId}
+    </select>
+
+
+    <!-- 합계 조회 - 주문 총액, 주문 총 수량 -->
+    <select id="sumOrderByGuest" resultType="Order">
+        SELECT SUM(amount * unit_price) sum_total_price
+              ,SUM(amount) sum_amount
+          FROM `order` o LEFT JOIN product_io io ON o.order_no = io.order_no
+                         LEFT JOIN product p ON p.product_id = io.product_id
+         WHERE o.order_pw = #{orderPw}
+           AND o.phone = #{phone}
+    </select>
+   
+
+
+</mapper>
