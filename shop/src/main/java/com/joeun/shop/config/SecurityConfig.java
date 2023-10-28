@@ -76,11 +76,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 람다식 
         http
             .authorizeRequests((authorize) -> authorize
-                                .antMatchers("/**").permitAll()
+                                .antMatchers("/admin", "/admin/**").hasRole("ADMIN")
+                                .antMatchers("/user/order").permitAll()
+                                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                                 .antMatchers("/css/**", "/js/**", "/img/**").permitAll()    // /static/~ 정적자원 인가처리
-                                // .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                                // .antMatchers("/user/order").permitAll()
-                                .antMatchers("/admin/**").hasRole("ADMIN")
+                                .antMatchers("/**").permitAll()
                                 // anyRequest()         : 모든(이외의) 요청을 지정
                                 // authenticated()      : 인증된 사용자만 허용
                                 // .anyRequest().permitAll()

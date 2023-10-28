@@ -19,8 +19,18 @@
   }
 }
 
+.sidebar {
+  position: sticky;
+  top: 4rem;
+  bottom: 0;
+  z-index: 1000;
+  overflow-y: auto;
+  height: calc(100vh - 4rem);
+}
+
 .sidebar .nav-link {
-  font-size: .875rem;
+  /* font-size: .875rem; */
+  font-size: 1.3rem;
   font-weight: 500;
 }
 

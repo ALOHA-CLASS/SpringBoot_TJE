@@ -15,7 +15,7 @@ public class AdminController {
 
     // /admin/, /admin
     // 관리자 권한(ROLE_ADMIN)을 가진 사용자만 접근 허용
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value={"/", ""})
     public String index() {
         log.info("[GET] - /admin");

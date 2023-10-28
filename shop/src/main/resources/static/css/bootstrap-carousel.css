@@ -5,7 +5,7 @@
 
 body {
     padding-top: 4.4rem;
-    padding-bottom: 3rem;
+    /* padding-bottom: 3rem; */
     color: rgb(var(--bs-tertiary-color-rgb));
 }
 

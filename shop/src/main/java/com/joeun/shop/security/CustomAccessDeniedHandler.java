@@ -19,6 +19,8 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
                      , HttpServletResponse response
                      , AccessDeniedException accessDeniedException) throws IOException, ServletException {
         log.info("접근 거부 에러...");
+        int statusCode = response.getStatus(); // 응답 상태 코드 가져오기
+        log.info("HTTP 응답 상태 코드: " + statusCode);
         log.info("accessDeniedException : " + accessDeniedException);
 
         response.sendRedirect("/exception");
