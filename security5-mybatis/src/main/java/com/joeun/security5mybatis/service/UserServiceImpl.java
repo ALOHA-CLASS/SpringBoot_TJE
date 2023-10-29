@@ -1,5 +1,7 @@
 package com.joeun.security5mybatis.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.joeun.security5mybatis.dto.UserAuth;
 import com.joeun.security5mybatis.dto.Users;
+import com.joeun.security5mybatis.mapper.UserAuthMapper;
 import com.joeun.security5mybatis.mapper.UserMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private UserAuthMapper userAuthMapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -45,10 +51,15 @@ public class UserServiceImpl implements UserService {
             UserAuth userAuth = new UserAuth();
             userAuth.setUserId( user.getUserId() );
             userAuth.setAuth("ROLE_USER");          // 기본 권한 : 사용자 권한 (ROLE_USER)
-            result = userMapper.insertAuth(userAuth);
+            result = userAuthMapper.insert(userAuth);
         }
 
         return result;
+    }
+
+    @Override
+    public List<Users> list() throws Exception {
+        return userMapper.list();
     }
 
     @Override

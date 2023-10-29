@@ -34,6 +34,21 @@
         VALUES ( #{userId}, #{userPw}, #{name} ,#{email} )
     </insert>
 
+    <!-- 회원 목록 조회 -->
+    <select id="list" resultMap="userMap">
+        SELECT u.user_no
+              ,u.user_id
+              ,user_pw
+              ,name
+              ,email
+              ,enabled
+              ,reg_date
+              ,upd_date
+              ,auth
+        FROM user u LEFT OUTER JOIN user_auth auth 
+                    ON u.user_id = auth.user_id
+    </select>
+
     <!-- 회원 조회 -->
     <select id="select" resultType="Users">
         SELECT *
@@ -56,12 +71,6 @@
                     ON u.user_id = auth.user_id
         WHERE u.user_id = #{userId}
     </select>
-
-    <!-- 회원 권한 등록 -->
-    <insert id="insertAuth">
-        INSERT INTO user_auth( user_id, auth ) 
-        VALUES ( #{userId}, #{auth} )
-    </insert>
 
     <!-- 회원 수정 -->
     <update id="update">

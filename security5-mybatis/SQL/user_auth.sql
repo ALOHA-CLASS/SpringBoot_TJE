@@ -1,4 +1,4 @@
--- user_auth : 권한 테이블
+-- 🎫 user_auth : 권한 테이블
 CREATE TABLE `user_auth` (
       auth_no int NOT NULL AUTO_INCREMENT       -- 권한번호
     , user_id varchar(100) NOT NULL             -- 아이디
@@ -20,4 +20,11 @@ VALUES ( 'admin', 'USER' );
 
 INSERT INTO user_auth ( user_id,  auth )
 VALUES ( 'admin', 'ADMIN' );
+
+
+-- ROLE_XXX  ➡  XXX 변환 
+UPDATE user_auth
+SET auth = SUBSTRING(auth, 6) 
+WHERE auth LIKE 'ROLE_%';
+
 

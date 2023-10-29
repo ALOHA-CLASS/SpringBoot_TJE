@@ -1,4 +1,4 @@
--- user : 회원 테이블
+-- 🎫 user : 회원 테이블
 CREATE TABLE `user` (
   `USER_NO` int NOT NULL AUTO_INCREMENT,
   `USER_ID` varchar(100) NOT NULL,

@@ -14,11 +14,18 @@
         <li>사용자 id : <span sec:authentication="principal.username"></span></li>
         <li>사용자 권한 목록 : <span sec:authentication="principal.authorities"></span></li>
     </ul>
+    <hr>
     <ul>
         <li><a href="/">메인 화면</a></li>
         <li><a href="/user">사용자</a></li>
         <li><a href="/admin">관리자</a></li>
     </ul>
+    <hr>
+    <ul>
+        <li><a href="/admin/code/groups">코드 그룹 관리</a></li>
+        <li><a href="/admin/users">회원 관리</a></li>
+    </ul>
+    <hr>
     <form action="/logout" method="post">
         <!-- csrf token -->
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />

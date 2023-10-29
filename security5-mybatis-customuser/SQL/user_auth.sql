@@ -21,3 +21,8 @@ VALUES ( 'admin', 'ROLE_USER' );
 INSERT INTO user_auth ( user_id,  auth )
 VALUES ( 'admin', 'ROLE_ADMIN' );
 
+
+--   XXX  ➡ ROLE_XXX  변환
+UPDATE user_auth
+SET auth = CONCAT('ROLE_', auth)
+WHERE auth NOT LIKE 'ROLE_%';
