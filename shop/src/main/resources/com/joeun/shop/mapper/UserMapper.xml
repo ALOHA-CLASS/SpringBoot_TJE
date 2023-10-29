@@ -81,6 +81,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE user_id = #{userId}
     </update>
 
+
+    <!-- 회원 수정 -->
+    <delete id="delete">
+        DELETE FROM user
+        WHERE user_id = #{userId}
+    </delete>
+
 	
 
 </mapper>

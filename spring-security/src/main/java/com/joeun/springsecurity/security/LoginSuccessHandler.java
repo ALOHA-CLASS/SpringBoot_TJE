@@ -17,8 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    private static final String Cookie = null;
-
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request
                                       , HttpServletResponse response

@@ -1,28 +1,22 @@
 package com.joeun.springsecurity.controller;
 
 import java.security.Principal;
-import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.joeun.springsecurity.dto.Users;
 import com.joeun.springsecurity.service.UserService;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import lombok.extern.slf4j.Slf4j;
 
 
 

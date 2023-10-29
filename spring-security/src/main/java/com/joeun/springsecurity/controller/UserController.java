@@ -1,13 +1,11 @@
 package com.joeun.springsecurity.controller;
 
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Slf4j
@@ -26,8 +24,7 @@ public class UserController {
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping(value={"/", ""})
     public String index() {
-        // int result = 10 / 0;
-        // log.info(result + "");
+        log.info("/");
         return "user/index";
     }
 

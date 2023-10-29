@@ -97,5 +97,11 @@ public class UserServiceImpl implements UserService {
 
         return result;
     }
+
+    @Override
+    public int delete(String userId) throws Exception {
+        int result = userMapper.delete(userId);
+        return result;
+    }
     
 }

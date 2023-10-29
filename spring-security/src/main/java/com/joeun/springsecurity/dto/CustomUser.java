@@ -1,22 +1,20 @@
 package com.joeun.springsecurity.dto;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import lombok.Data;
+import lombok.Getter;
 
 /**
  * User         : 스프링 시큐리티 사용자 정보 클래스
  * CustomUser   : User 자식 클래스
  * Users        : 프로젝트의 사용자 정보 클래스
  */
-@Data
+@Getter
 public class CustomUser extends User {
 
     private Users users;         

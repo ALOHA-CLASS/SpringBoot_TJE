@@ -20,5 +20,8 @@ public interface UserService {
 
     // 회원 수정
     public int update(Users user) throws Exception;
+
+    // 회원 삭제
+    public int delete(String userId) throws Exception;
     
 }
