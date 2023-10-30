@@ -2,16 +2,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-BoardApplication<board>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "mainClass": "com.joeun.board.BoardApplication",
-            "projectName": "board",
-            "args": "",
-            "envFile": "${workspaceFolder}/.env"
-        },
-        {
-            "type": "java",
             "name": "Spring Boot-SpringSecurityApplication<spring-security>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
@@ -22,31 +12,21 @@
         },
         {
             "type": "java",
-            "name": "Spring Boot-LayoutApplication<layout>",
+            "name": "Spring Boot-Security5MybatisApplication<security5-mybatis>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "com.joeun.layout.LayoutApplication",
-            "projectName": "layout",
+            "mainClass": "com.joeun.security5mybatis.Security5MybatisApplication",
+            "projectName": "security5-mybatis",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         },
         {
             "type": "java",
-            "name": "Spring Boot-SpringSecurityApplication<shop>",
+            "name": "Spring Boot-Security5MybatisCustomuserApplication<security5-mybatis-customuser>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "com.joeun.springsecurity.SpringSecurityApplication",
-            "projectName": "shop",
-            "args": "",
-            "envFile": "${workspaceFolder}/.env"
-        },
-        {
-            "type": "java",
-            "name": "Spring Boot-ShopApplication<shop>",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "mainClass": "com.joeun.springsecurity.ShopApplication",
-            "projectName": "shop",
+            "mainClass": "com.joeun.security5mybatiscustomuser.Security5MybatisCustomuserApplication",
+            "projectName": "security5-mybatis-customuser",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         },
