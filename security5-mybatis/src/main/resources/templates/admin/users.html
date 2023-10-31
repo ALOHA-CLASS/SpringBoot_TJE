@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 - 회원관리</title>
+</head>
+<body>
+    <h1>관리자 - 회원관리</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Authority</th>
+                <th>권한 관리</th>
+                <th>추가</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${userList}">
+                <form action="/admin/users" method="post" th:id="|form_${user.userNo}|">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <input type="hidden" name="updId" th:value="${#authentication.principal.username}" >
+                    <input type="hidden" name="userId" th:value="${user.userId}">
+
+                    <td th:text="${user.userId}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td>
+                        <th:blcok th:each="auth, status : ${user.authList}">
+                            <span th:th:text="${auth.auth}"></span>
+                            <th:block th:if="${!status.last}">,</th:block>
+                        </th:blcok>
+                    </td>
+                    <td>
+                        <select name="auth" th:id="|auth_${user.userNo}|" >
+                            <th:block th:each="code : ${codeList}">
+                                <option th:value="${code.value}" th:text="${code.name}"></option>
+                            </th:block>
+                        </select>
+                    </td>
+                    <td>
+                        <button type="button" th:onclick="|addAuthority(${user.userNo})|">추가</button>
+                    </td>
+                    <td>
+                        <button type="button" th:onclick="|removeAuthority(${user.userNo})|">삭제</button>
+                    </td>
+                </form>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script>
+        $(function() {
+
+        })
+
+        // 권한 추가
+        function addAuthority(userNo) {
+            let form = $('#form_' + userNo)
+            form.submit()
+        }
+        
+        // 권한 삭제
+        function removeAuthority(userNo) {
+            // let form = $('#form_' + userNo)
+            let form = document.getElementById('form_' + userNo)
+            let formData = new FormData(form)
+            $.ajax({
+                url: '/admin/users', 
+                type: 'DELETE', 
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('[[${_csrf.headerName}]]', '[[${_csrf.token}]]');
+                },
+                data: formData, 
+                processData: false,             // FormData를 query 문자열로 변환하지 않도록 설정
+                contentType: false,             // 기본 컨텐트 타입을 사용하지 않도록 설정
+                success: function(data) {
+                    console.log('Success:', data); 
+                    location.reload()
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error); 
+                }
+            });
+        }
+    </script>
+</body>
+</html>
