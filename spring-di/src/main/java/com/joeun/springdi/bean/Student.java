@@ -4,6 +4,10 @@ import org.springframework.stereotype.Component;
 
 import lombok.Data;
 
+/**
+ * 🍃 빈 정의
+ * @Component
+ */
 @Data
 @Component("student")
 public class Student extends Person {

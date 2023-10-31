@@ -4,6 +4,10 @@ import org.springframework.stereotype.Component;
 
 import lombok.Data;
 
+/**
+ * 🍃 빈 정의
+ * @Component
+ */
 @Data
 @Component("person") // 이 클래스를 스프링 빈으로 등록하기 위한 어노테이션
 public class Person {

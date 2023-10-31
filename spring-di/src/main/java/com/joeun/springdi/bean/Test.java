@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class Test {
     
+    /**
+     * 💉 의존성 자동 주입
+     * @Autowired
+     */
     @Autowired
     private Person person;
 
