@@ -17,6 +17,11 @@
 
 | Project | Info |
 | ------ | ------ |
+| spring-di | 의존성 주입 |
+| spring-HTTP | HTTP 요청 |
+|  | - |
+|  | - |
+|  | - |
 | board | 게시판 CRUD |
 | spring-security | 스프링 시큐리티 (인증, 인가, 자동로그인) |
 |  | - |
