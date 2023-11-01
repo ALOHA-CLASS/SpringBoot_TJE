@@ -1,0 +1,144 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Board",
+    "dateExported": "2023-11-01T02:29:24.676Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "c9eaf063-5023-4d5a-b744-abf2f93cdddc",
+            "colId": "552728f8-7994-4463-b97e-e5470d4faec8",
+            "containerId": "",
+            "name": "http://localhost:8080/board",
+            "url": "http://localhost:8080/board",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-11-01T02:26:38.501Z",
+            "modified": "2023-11-01T02:26:38.501Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "287e1f18-a7ce-4c4e-a08f-acdbb9039fdd",
+            "colId": "552728f8-7994-4463-b97e-e5470d4faec8",
+            "containerId": "",
+            "name": "http://localhost:8080/board/10",
+            "url": "http://localhost:8080/board/10",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-11-01T02:26:51.632Z",
+            "modified": "2023-11-01T02:26:51.632Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "boardNo",
+                    "value": "10",
+                    "isDisabled": true,
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "1d4f211a-f17e-44cf-8bb7-6c2fcc08427a",
+            "colId": "552728f8-7994-4463-b97e-e5470d4faec8",
+            "containerId": "",
+            "name": "http://localhost:8080/board",
+            "url": "http://localhost:8080/board",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-11-01T02:27:01.488Z",
+            "modified": "2023-11-01T02:27:01.488Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "title",
+                        "value": "제목"
+                    },
+                    {
+                        "name": "writer",
+                        "value": "작성자"
+                    },
+                    {
+                        "name": "content",
+                        "value": "내용"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "ecbbad7b-fcd8-4b9b-92aa-c27767175b77",
+            "colId": "552728f8-7994-4463-b97e-e5470d4faec8",
+            "containerId": "",
+            "name": "http://localhost:8080/board",
+            "url": "http://localhost:8080/board",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2023-11-01T02:27:06.416Z",
+            "modified": "2023-11-01T02:27:06.416Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "boardNo",
+                        "value": "10"
+                    },
+                    {
+                        "name": "title",
+                        "value": "제목 수정"
+                    },
+                    {
+                        "name": "writer",
+                        "value": "작성자 수정"
+                    },
+                    {
+                        "name": "content",
+                        "value": "내용 수정"
+                    }
+                ]
+            },
+            "tests": []
+        },
+        {
+            "_id": "7a78dbb4-5f86-469d-b446-fb2a0890d68f",
+            "colId": "552728f8-7994-4463-b97e-e5470d4faec8",
+            "containerId": "",
+            "name": "http://localhost:8080/board/10",
+            "url": "http://localhost:8080/board/10",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2023-11-01T02:27:11.008Z",
+            "modified": "2023-11-01T02:27:11.008Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "boardNo",
+                    "value": "10",
+                    "isDisabled": true,
+                    "isPath": false
+                }
+            ],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "boardNo",
+                        "value": "10",
+                        "isDisabled": true
+                    }
+                ]
+            },
+            "tests": []
+        }
+    ]
+}
