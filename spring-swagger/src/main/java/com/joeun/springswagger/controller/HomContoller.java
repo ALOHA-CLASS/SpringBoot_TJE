@@ -9,6 +9,8 @@ public class HomContoller {
 
     @GetMapping(value={"/", ""})
     public String home() {
+        // ✅ swagger 기본 경로
+        // /swagger-ui/index.html
         return "redirect:swagger-ui/index.html";
     }
     
