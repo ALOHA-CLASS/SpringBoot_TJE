@@ -61,7 +61,7 @@ public class BoardController {
     /**
      * 게시글 조회
      * [GET] 
-     * /board
+     * /board/10
      * - response :  board
      * @param model
      * @param boardNo
@@ -126,7 +126,7 @@ public class BoardController {
 
     /**
      * 게시글 삭제 처리
-     * [POST]
+     * [DELETE]
      * /board
      * - response : 
      * ✅ 요청 성공 : 200 OK            "SUCCESS"  
