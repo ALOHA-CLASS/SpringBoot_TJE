@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -118,7 +115,7 @@ public class BoardController {
         int result = new Random().nextInt(2);
 
         // 게시글 쓰기 실패 ➡ 게시글 쓰기 화면
-        if( result == 0 ) return "board/insert";
+        if( result == 0 ) return "redirect:/board/insert";
 
         // 뷰 페이지 지정
         return "redirect:/board/list";
@@ -143,6 +140,8 @@ public class BoardController {
         // 뷰 페이지 지정
         return "board/update";
     }
+
+    
     /**
      * 게시글 수정 처리
      * [POST]

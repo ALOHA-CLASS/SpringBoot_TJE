@@ -22,6 +22,8 @@ public class Board {
         this.title = title;
         this.writer = writer;
         this.content = content;
+        this.regDate = new Date();
+        this.updDate = new Date();
     }
     
 }
