@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Response</title>
+</head>
+<body>
+    <h1>Response</h1>
+    <ul>
+        <li><a href="/void">/void</a></li>
+        <li><a href="/string">/string</a></li>
+        <li><a href="/object">/object</a></li>
+        <li><a href="/collection">/collection</a></li>
+        <li><a href="/map">/map</a></li>
+        <li><a href="/responseString">/responseString</a></li>
+        <li><a href="/img">/img</a></li>
+        <li><a href="/download">/download</a></li>
+        <hr>
+        <form action="/board" method="POST" id="form-post">
+            <input type="text" name="title" placeholder="title" value="제목"> <br>
+            <input type="text" name="writer" placeholder="writer" value="작성자"> <br>
+            <input type="text" name="content" placeholder="content" value="내용"> <br>
+        </form>
+        <li><a href="javasript:;" onclick="$insert()">/board - [POST]</a></li>
+        <hr>
+
+        <form action="/board" method="POST" id="form-put">
+            <input type="text" name="boardNo" placeholder="boardNo" value="10"> <br>
+            <input type="text" name="title" placeholder="title" value="제목"> <br>
+            <input type="text" name="writer" placeholder="writer" value="작성자"> <br>
+            <input type="text" name="content" placeholder="content" value="내용"> <br>
+        </form>
+        <li><a href="javasript:;" onclick="$update()">/board - [PUT]</a></li>
+        <hr>
+
+        <form action="/board" method="POST" id="form-delete">
+            <input type="text" name="boardNo" placeholder="boardNo" value="10"> <br>
+        </form>
+        <li><a href="javasript:;" onclick="$remove()">/board - [DELETE]</a></li>
+    </ul>
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script>
+
+        // 게시글 등록 요청 
+        function $insert() {
+
+            // 입력 정보
+            let form = document.getElementById('form-post')
+            let title = form.title.value
+            let writer = form.writer.value
+            let content = form.content.value
+
+            // JSON 
+            let data = {
+                'title' : title,
+                'writer' : writer,
+                'content' : content
+            }
+
+            // url
+            let url = 'http://localhost:8080/board'
+
+            $.ajax({
+                type            : 'POST',                  // 요청 메소드
+                url             : url,                    // 요청 URL
+                data            : JSON.stringify(data),   // 요청 데이터
+                contentType     : 'application/json',     // 요청 데이터 타입
+                dataType        : 'html',                 // 응답 데이터 타입
+                // 요청 성공 
+                success         : function(response, status) {
+                    // response : 응답 데이터
+                    // status   : 응답 상태
+                    alert(response)
+                },
+                // 에러
+                error           : function(xhr, status) {
+                    // xhr      : XMLHttpRequest 객체
+                    // status   : 응답 상태
+                    alert('에러 발생')
+                }
+                
+            })
+
+        }
+
+        // 게시글 수정 요청 
+        function $update() {
+
+            // 입력 정보
+            let form = document.getElementById('form-put')
+            let boardNo = form.boardNo.value
+            let title = form.title.value
+            let writer = form.writer.value
+            let content = form.content.value
+
+            // JSON 
+            let data = {
+                'boardNo' : boardNo,
+                'title' : title,
+                'writer' : writer,
+                'content' : content
+            }
+
+            // url
+            let url = 'http://localhost:8080/board'
+
+            $.ajax({
+                type            : 'PUT',                  // 요청 메소드
+                url             : url,                    // 요청 URL
+                data            : JSON.stringify(data),   // 요청 데이터
+                contentType     : 'application/json',     // 요청 데이터 타입
+                dataType        : 'html',                 // 응답 데이터 타입
+                // 요청 성공 
+                success         : function(response, status) {
+                    // response : 응답 데이터
+                    // status   : 응답 상태
+                    alert(response)
+                },
+                // 에러
+                error           : function(xhr, status) {
+                    // xhr      : XMLHttpRequest 객체
+                    // status   : 응답 상태
+                    alert('에러 발생')
+                }
+                
+            })
+
+        }
+
+        // 게시글 삭제 요청 
+        function $remove() {
+
+            // 입력 정보
+            let form = document.getElementById('form-put')
+            let boardNo = form.boardNo.value
+
+            // url
+            let url = 'http://localhost:8080/board/' + boardNo
+
+            // jQuery 로 AJAX 요청
+            $.ajax({
+                type            : 'DELETE',               // 요청 메소드
+                url             : url,                    // 요청 URL
+                contentType     : 'application/json',     // 요청 데이터 타입
+                dataType        : 'html',                 // 응답 데이터 타입
+                // 요청 성공 
+                success         : function(response, status) {
+                    // response : 응답 데이터
+                    // status   : 응답 상태
+                    alert(response)
+                },
+                // 에러
+                error           : function(xhr, status) {
+                    // xhr      : XMLHttpRequest 객체
+                    // status   : 응답 상태
+                    alert('에러 발생')
+                }
+                
+            })
+
+        }
+
+
+    </script>
+</body>
+</html>

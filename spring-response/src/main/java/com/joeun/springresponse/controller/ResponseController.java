@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
  * : JSON 또는 XML과 같은 데이터를 반환하는 컨트롤러를 지정하는 어노테이션
  * 🔵 RESTful 웹 서비스를 생성하는 데 사용
  * 🔵 @Controller 와 @ResponseBody를 합한 역할을 하는 어노테이션
- * ✔ @Controller       ➡ View를 반환
+ * ✔ @Controller       ➡ View 를 반환
  * ✔ @RestController   ➡ 응답 데이터(메시지[상태코드,응답헤더,응답본문(body)])를 반환
  */
 @Slf4j
@@ -256,8 +257,8 @@ public class ResponseController {
      * @param board
      * @return
      */
-    @DeleteMapping("/board")
-    public ResponseEntity<?> delete(Board board) {
+    @DeleteMapping("/board/{boardNo}")
+    public ResponseEntity<?> delete(@PathVariable int boardNo) {
         log.info("[DELETE] - /board");
 
 
