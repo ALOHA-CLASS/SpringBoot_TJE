@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문자 보내기</title>
+</head>
+<body>
+    <h1>문자 보내기</h1>
+    <h3 style="color: red;">(01012341234) -없이 입력</h3>
+    <form action="/send" method="post">
+        <div id="receiver-list">
+            <input type="text" name="receiver" placeholder="받는번호" style="width: 250px;">
+            <button type="button" onclick="add()">추가</button> 
+            <br>
+        </div>
+        <textarea name="msg" id="" rows="10" placeholder="문자 메시지를 입력해주세요." style="width: 300px;"></textarea> 
+        <br>
+        <input type="checkbox" name="rcheck" id="rcheck" onchange="rCheck()">
+        <label for="rcheck">예약문자</label> 
+        <input type="checkbox" name="testmode_yn" id="testmode_yn" value="Y" checked>
+        <label for="testmode_yn">개발모드</label> 
+        <br>
+        <input type="date" name="date" id="date" onchange="formatDate()" class="reservation" disabled>
+        <input type="hidden" name="rdate" id="rdate" class="reservation" disabled>
+        <input type="time" name="time" id="time" onchange="formatTime()" class="reservation" disabled>
+        <input type="hidden" name="rtime" id="rtime" class="reservation" disabled>
+        <br>
+        <button type="submit" style="width: 300px;">보내기</button>
+    </form>
+
+
+    <script>
+        let count = 1
+
+        // 받는 사람 추가
+        function add() {
+            let list = document.getElementById('receiver-list')
+            let item = `<input type="text" name="receiver" placeholder="받는사람${++count}"> <br>`
+            list.innerHTML += item
+        }
+
+
+        // YYYYMMDD 형식으로 변환
+        function formatDate() {
+            const inputDate = document.getElementById('date').value;
+            const date = new Date(inputDate);
+            
+            const formattedDate = date.getFullYear().toString().padStart(4, '0') +
+                                (date.getMonth() + 1).toString().padStart(2, '0') +
+                                date.getDate().toString().padStart(2, '0');
+            
+            // 변환된 날짜를 다른 곳에 전달하거나 사용
+            console.log('Formatted Date:', formattedDate);
+
+            document.getElementById('rdate').value = formattedDate
+        }
+
+        // 입력된 시간을 HHII 형식으로 변환
+        function formatTime() {
+            const inputTime = document.getElementById('time').value;
+            
+            const timeParts = inputTime.split(':');
+            const formattedTime = timeParts[0].padStart(2, '0') + timeParts[1].padStart(2, '0');
+            
+            // 변환된 시간을 다른 곳에 전달하거나 사용
+            console.log('Formatted Time:', formattedTime);
+            document.getElementById('rtime').value = formattedTime
+        }
+
+        // 예약 문자 체크
+        function rCheck() {
+            const checkbox = document.getElementById('rcheck');
+            let reservation = document.getElementsByClassName('reservation')
+            if (checkbox.checked) {
+                console.log('✅ 체크');
+                for (let i = 0; i < reservation.length; i++) {
+                    const element = reservation[i];
+                    // console.log(element);
+                    element.disabled = false
+                }
+            } else {
+                console.log('❌ 체크 해제');
+                for (let i = 0; i < reservation.length; i++) {
+                    const element = reservation[i];
+                    // console.log(element);
+                    element.disabled = true
+                }
+            }
+        }
+    </script>
+</body>
+</html>
