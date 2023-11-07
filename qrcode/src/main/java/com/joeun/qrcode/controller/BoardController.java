@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.joeun.qrcode.dto.Board;
 import com.joeun.qrcode.dto.Files;
+import com.joeun.qrcode.dto.QR;
 import com.joeun.qrcode.service.BoardService;
 import com.joeun.qrcode.service.FileService;
+import com.joeun.qrcode.service.QRService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,6 +44,9 @@ public class BoardController {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private QRService qrService;
 
     /**
      * 게시글 목록
@@ -75,7 +80,7 @@ public class BoardController {
      * @throws Exception
      */
     @GetMapping(value="/read")
-    public String read(Model model, int boardNo, Files files) throws Exception {
+    public String read(Model model, int boardNo, Files files, QR qr) throws Exception {
         log.info("[GET] - /board/read");
 
         // 데이터 요청
@@ -85,9 +90,14 @@ public class BoardController {
         files.setParentNo(boardNo);
         List<Files> fileList = fileService.listByParent(files); // 파일 정보
 
+        qr.setParentTable("board");
+        qr.setParentNo(boardNo);
+        List<QR> qrList = qrService.listByParent(qr); // 파일 정보
+
         // 모델 등록
         model.addAttribute("board", board);
         model.addAttribute("fileList", fileList);
+        model.addAttribute("qrList", qrList);
         // 뷰 페이지 지정
         return "board/read";
     }

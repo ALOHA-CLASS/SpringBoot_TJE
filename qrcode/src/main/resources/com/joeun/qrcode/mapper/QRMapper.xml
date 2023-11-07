@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="매퍼 인터페이스 경로" --> 
+<mapper namespace="com.joeun.qrcode.mapper.QRMapper">
+
+    <!-- QR 목록 -->
+    <select id="list" resultType="QR">
+        SELECT *
+        FROM qr
+        ORDER BY reg_date DESC
+    </select>
+
+    <!-- QR 조회 -->
+    <select id="select" resultType="QR">
+        SELECT *
+        FROM qr
+        WHERE qr_no = #{qrNo}
+    </select>
+
+    <!-- QR 등록 -->
+    <insert id="insert">
+        INSERT INTO qr ( parent_table, parent_no, url, name, file_path, file_size )
+        VALUES ( #{parentTable}, #{parentNo}, #{url}, #{name}, #{filePath}, #{fileSize} )
+    </insert>
+
+
+    <!-- QR 수정 -->
+    <update id="update">
+        UPDATE qr
+           SET title = #{title}
+              ,writer = #{writer}
+              ,content = #{content}
+        WHERE qr_no = #{qrNo}
+    </update>
+
+    <!-- QR 삭제 -->
+    <delete id="delete">
+        DELETE FROM qr
+        WHERE qr_no = #{qrNo}
+    </delete>
+
+    <!-- QR 번호 최댓값 -->
+    <select id="maxPk" resultType="int">
+        SELECT MAX(qr_no)
+        FROM qr
+    </select>
+
+    <!-- QR 목록 - 부모 테이블 기준 -->
+    <select id="listByParent" resultType="QR">
+        SELECT *
+        FROM qr
+        WHERE parent_table = #{parentTable}
+          AND parent_no = #{parentNo}
+        ORDER BY reg_date DESC
+    </select>
+
+
+    <!-- QR 목록 삭제 - 부모 테이블 기준 QR 목록 삭제 -->
+    <delete id="deleteByParent">
+        DELETE FROM qr
+        WHERE parent_table = #{parentTable}
+          AND parent_no = #{parentNo}
+    </delete>
+
+
+
+</mapper>

@@ -1,14 +1,13 @@
-package com.joeun.qrcode.service;
+package com.joeun.qrcode.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.joeun.qrcode.dto.QR;
-
-public interface QRService {
-
-    // ✅ QR 코드 생성
-    public int makeQR(QR qr) throws Exception;
-
+ 
+@Mapper
+public interface QRMapper {
 
     // QR 목록
     public List<QR> list() throws Exception;
@@ -25,5 +24,16 @@ public interface QRService {
     public List<QR> listByParent(QR qr) throws Exception;
     // QR 삭제 - 부모 기준
     public int deleteByParent(QR qr) throws Exception;
-
 }
+
+
+
+
+
+
+
+
+
+
+
+

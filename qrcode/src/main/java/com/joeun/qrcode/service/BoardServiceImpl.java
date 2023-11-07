@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.joeun.qrcode.dto.Board;
+import com.joeun.qrcode.dto.QR;
 import com.joeun.qrcode.mapper.BoardMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,9 @@ public class BoardServiceImpl implements BoardService {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private QRService qrService;
 
     @Override
     public List<Board> list() throws Exception {
@@ -47,6 +51,12 @@ public class BoardServiceImpl implements BoardService {
         log.info(count + " 개의 파일을 업로드하였습니다.");
 
         // QR 코드 생성
+        QR qr = new QR();
+        qr.setUrl(board.getUrl());
+        qr.setParentTable("board");
+        qr.setParentNo(parentNo);
+        qr.setName(board.getTitle());
+        qrService.makeQR(qr);
         
 
 

@@ -20,7 +20,7 @@ public class Board {
     private Date regDate;
     private Date updDate;
     private int views;
-    private String url;
+    private String url;         // 🔗 QR Code URL
     
 
     private List<MultipartFile> file;

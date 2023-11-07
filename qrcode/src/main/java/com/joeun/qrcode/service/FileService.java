@@ -26,8 +26,9 @@ public interface FileService {
     // 파일 삭제 - 부모 기준
     public int deleteByParent(Files file) throws Exception;
     
-    // 파일 다운로드
+    // 파일 업로드
     public int upload(String parentTable, int parentNo, List<MultipartFile> fileList) throws Exception;
+
     // 파일 다운로드
     public int download(int fileNo, HttpServletResponse response) throws Exception;
     

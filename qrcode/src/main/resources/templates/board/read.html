@@ -43,6 +43,22 @@
                     </ul>
                 </td>
             </tr>
+            <tr>
+                <td>QR 코드</td>
+                <td>
+                    <ul>
+                        <!-- QR 목록 -->
+                        <th:block th:each="qr : ${qrList}">
+                            <li>
+                                <a th:href="|${qr.url}|" target="_blank" style="text-decoration: none;">
+                                    <img th:src="|/qr/img?qrNo=${qr.qrNo}|" alt="">
+                                </a>          
+                                <button type="button" class="btn-file-delete" th:data="${qr.qrNo}">삭제</button>
+                            </li>
+                        </th:block>
+                    </ul>
+                </td>
+            </tr>
         </table>
         <div>
             <button type="button" onclick="moveList()">목록</button>

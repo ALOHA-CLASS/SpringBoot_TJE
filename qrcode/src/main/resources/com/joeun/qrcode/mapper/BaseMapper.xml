@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace="매퍼 인터페이스 경로" --> 
+<mapper namespace="com.joeun.qrcode.mapper.BaseMapper">
+
+    <!-- 기본 목록 -->
+    <select id="list" resultType="Board">
+        SELECT *
+        FROM base
+        ORDER BY reg_date DESC
+    </select>
+
+    <!-- 기본 조회 -->
+    <select id="select" resultType="Board">
+        SELECT *
+        FROM base
+        WHERE base_no = #{baseNo}
+    </select>
+
+    <!-- 기본 등록 -->
+    <insert id="insert">
+        INSERT INTO base( title, writer, content)
+        VALUES ( #{title}, #{writer}, #{content} )
+    </insert>
+
+    <!-- 기본 수정 -->
+    <update id="update">
+        UPDATE base
+           SET title = #{title}
+              ,writer = #{writer}
+              ,content = #{content}
+        WHERE base_no = #{baseNo}
+    </update>
+
+    <!-- 기본 삭제 -->
+    <delete id="delete">
+        DELETE FROM base
+        WHERE base_no = #{baseNo}
+    </delete>
+
+    <!-- 기본 번호 최댓값 -->
+    <select id="maxPk" resultType="int">
+        SELECT MAX(base_no)
+        FROM base
+    </select>
+
+
+
+</mapper>
