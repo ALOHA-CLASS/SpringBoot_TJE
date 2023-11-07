@@ -50,13 +50,15 @@ public class SMSServiceImpl implements SMSService {
             // sms.put("receiver", "01111111111,01111111112");
             sms.put("receiver", param.get("receiver").toString());        // ✅(필수) 받는 번호
             sms.put("sender", sender);                                        // ✅(필수) 보내는 번호
-            sms.put("rdate", rdate);                                          // 예약일자 20231225
-            sms.put("rtime", rtime);                                          // 예약시간 1230 (현재시간 10분이후부터가능)
+            sms.put("rdate", rdate);                                              // 예약일자 20231225
+            sms.put("rtime", rtime);                                              // 예약시간 1230 (현재시간 10분이후부터가능)
             sms.put("testmode_yn", testmodeYn);                               // 테스트 모드 여부
             // sms.put("testmode_yn", "Y");                                       
             // sms.put("testmode_yn", "N");
             // sms.put("title", "제목입력");
 
+
+            // 💎 이미지 첨부 관련
             String image = "";
             //image = "/tmp/pic_57f358af08cf7_sms_.jpg";
 
@@ -79,11 +81,11 @@ public class SMSServiceImpl implements SMSService {
             HttpEntity entity = builder.build();
 
             HttpClient client = HttpClients.createDefault();
-            HttpPost post = new HttpPost(sms_url);
+            HttpPost post = new HttpPost(sms_url);      // POST 방식의 요청 객체
             post.setEntity(entity);
 
-            HttpResponse res = client.execute(post);
-
+            HttpResponse res = client.execute(post);    // 요청 보냄 (request)
+                                                        // HttpResponse 응답 객체
             StringBuilder result = new StringBuilder();
             if (res != null) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(res.getEntity().getContent(), encodingType));
