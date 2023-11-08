@@ -38,10 +38,10 @@ public class QRServiceImpl implements QRService {
         // QR 코드 생성
         byte[] qrCodeBytes = QRCodeUtil.makeQRCodeImage(qr.getUrl());
 
-        String fileName = "QR_" + UUID.randomUUID() + ".png";
-        File file = new File(uploadPath, fileName);
+        String fileName = "QR_" + UUID.randomUUID() + ".png";  // 파일 이름
+        File file = new File(uploadPath, fileName);             // 파일 경로, 파일 이름
         OutputStream out = new FileOutputStream(file);
-        FileCopyUtils.copy(qrCodeBytes, out);
+        FileCopyUtils.copy(qrCodeBytes, out);  // QR 코드 이미지 출력(저장)     // byte[], OutputStream
 
         // QR 코드 파일 정보 등록
         String uploadedPath = uploadPath + "/" + fileName;

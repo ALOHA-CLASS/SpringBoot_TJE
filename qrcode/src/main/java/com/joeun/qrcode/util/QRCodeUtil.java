@@ -39,7 +39,7 @@ public class QRCodeUtil {
             // return ResponseEntity.ok()
             //         .contentType(MediaType.IMAGE_PNG)
             //         .body(out.toByteArray());
-            return out.toByteArray();
+            return out.toByteArray();  // byte[]
 
         }catch (Exception e) {
             log.warn("QR Code OutputStream 도중 Excpetion 발생, {}", e.getMessage());

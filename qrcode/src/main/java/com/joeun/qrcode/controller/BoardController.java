@@ -92,7 +92,7 @@ public class BoardController {
 
         qr.setParentTable("board");
         qr.setParentNo(boardNo);
-        List<QR> qrList = qrService.listByParent(qr); // 파일 정보
+        List<QR> qrList = qrService.listByParent(qr); // QR 정보
 
         // 모델 등록
         model.addAttribute("board", board);

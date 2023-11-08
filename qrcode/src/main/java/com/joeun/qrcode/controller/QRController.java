@@ -30,16 +30,16 @@ public class QRController {
         log.info("[GET] - /file/qr");
 
         QR qr = qrService.select(qrNo);
-        String filePath = qr.getFilePath();
+        String filePath = qr.getFilePath();         // 파일 경로
 
-        File f = new File(filePath);
-        String ext = filePath.substring( filePath.lastIndexOf(".") );
+        File f = new File(filePath);                // 파일 객체 생성
+        String ext = filePath.substring( filePath.lastIndexOf(".") );  // 확장자
         
-        byte[] bytes = FileCopyUtils.copyToByteArray(f);
+        byte[] bytes = FileCopyUtils.copyToByteArray(f);    // 파일객체에서 파일 데이터 추출
 
         // 이미지 파일을 읽어서 응답
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaUtil.getMediaType(ext));
+        headers.setContentType(MediaUtil.getMediaType(ext));  // image/**
         return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
     }
     
