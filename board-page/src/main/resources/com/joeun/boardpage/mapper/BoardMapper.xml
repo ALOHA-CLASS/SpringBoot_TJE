@@ -1,0 +1,23 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+    
+<!-- namespace : 매퍼 인터페이스의 경로 작성 -->
+<mapper namespace="com.joeun.boardpage.mapper.BoardMapper">
+
+    <!-- page -->
+    <select id="list" resultType="Board">
+        SELECT *
+        FROM board
+        ORDER BY reg_date DESC
+        LIMIT #{index}, #{rows}
+    </select>
+
+    <!-- count -->
+    <select id="count" resultType="int">
+        SELECT COUNT(*)
+        FROM board
+    </select>
+
+</mapper>

@@ -1,6 +1,5 @@
-package com.joeun.springrest.controller;
+package com.joeun.deploy.controller;
 
-import java.nio.file.Files;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.joeun.springrest.dto.Board;
-import com.joeun.springrest.service.BoardService;
+import com.joeun.deploy.dto.Board;
+import com.joeun.deploy.dto.Files;
+import com.joeun.deploy.service.BoardService;
+import com.joeun.deploy.service.FileService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
  
 
 /**
- *  🔴 Non-RESTful
  *  게시판 컨트롤러
  * - 게시글 목록            - [GET] - /board/list
  * - 게시글 조회            - [GET] - /board/read
@@ -32,13 +32,16 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j              // 로그 사용 어노테이션
 @Controller
-// @RequestMapping("/board")
+@RequestMapping("/board")
 public class BoardController {
 
     // 한꺼번에 import : alt + shift + O
 
     @Autowired
     private BoardService boardService;
+
+    @Autowired
+    private FileService fileService;
 
     /**
      * 게시글 목록
@@ -77,8 +80,14 @@ public class BoardController {
 
         // 데이터 요청
         Board board = boardService.select(boardNo);     // 게시글 정보
+
+        files.setParentTable("board");
+        files.setParentNo(boardNo);
+        List<Files> fileList = fileService.listByParent(files); // 파일 정보
+
         // 모델 등록
         model.addAttribute("board", board);
+        model.addAttribute("fileList", fileList);
         // 뷰 페이지 지정
         return "board/read";
     }

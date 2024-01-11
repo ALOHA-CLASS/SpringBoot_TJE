@@ -1,4 +1,4 @@
-package com.joeun.springrest.controller;
+package com.joeun.springtestanswer.controller;
 
 import java.nio.file.Files;
 import java.util.List;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.joeun.springrest.dto.Board;
-import com.joeun.springrest.service.BoardService;
+import com.joeun.springtestanswer.dto.Board;
+import com.joeun.springtestanswer.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j              // 로그 사용 어노테이션
 @Controller
-// @RequestMapping("/board")
+@RequestMapping("/board")
 public class BoardController {
 
     // 한꺼번에 import : alt + shift + O
