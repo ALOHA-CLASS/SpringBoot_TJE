@@ -8,6 +8,12 @@ plugins {
 group = 'com.joeun'
 version = '0.0.1-SNAPSHOT'
 
+def appName = "app"
+
+bootWar {
+	archiveFileName = "${appName}.war"
+}
+
 java {
 	sourceCompatibility = '17'
 }
@@ -34,54 +40,52 @@ dependencies {
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
 }
 
-// client (React) 빌드 설정을 위한 Gradle 스크립트
+tasks {
+	processResources {
+		duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.INCLUDE
+  	}
+}
+
+
 def webappDir = "$projectDir/src/main/client"
-
-// React 애플리케이션 빌드 결과물을 스프링 부트 리소스 디렉토리에 추가
 sourceSets {
-    main {
-        resources {
-            srcDirs = ["$webappDir/build", "$projectDir/src/main/resources"]
-        }
-    }
+	main {
+		resources {
+			srcDirs = ["$webappDir/build", "$projectDir/src/main/resources"]
+		}
+	}
 }
 
-// 스프링 부트 빌드 프로세스가 리액트 빌드에 의존하도록 함
 processResources {
-    dependsOn "buildReact"
+	dependsOn "buildReact"
+	
 }
 
-// 리액트 애플리케이션을 빌드하는 Gradle 태스크
+
 task buildReact(type: Exec) {
-    dependsOn "installReact"
-    workingDir "$webappDir"
-    inputs.dir "$webappDir"
-    group = BasePlugin.BUILD_GROUP
-    
-    // 운영체제에 따라 npm 또는 npm.cmd를 사용하여 빌드 스크립트 실행
-    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-        commandLine "npm.cmd", "run-script", "build"
-    } else {
-        commandLine "npm", "run-script", "build"
-    }
+	dependsOn "installReact"
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	group = BasePlugin.BUILD_GROUP
+	if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+		commandLine "npm.cmd", "run-script", "build"
+	} else {
+		commandLine "npm", "run-script", "build"
+	}
 }
 
-// 리액트 애플리케이션에 필요한 npm 패키지 설치하는 Gradle 태스크
 task installReact(type: Exec) {
-    workingDir "$webappDir"
-    inputs.dir "$webappDir"
-    group = BasePlugin.BUILD_GROUP
-
-    // 운영체제에 따라 npm 또는 npm.cmd를 사용하여 npm audit fix 및 npm install 실행
-    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-        commandLine "npm.cmd", "audit", "fix"
-        commandLine "npm.cmd", "install"
-    } else {
-        commandLine "npm", "audit", "fix"
-        commandLine "npm", "install"
-    }
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	group = BasePlugin.BUILD_GROUP
+	if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+		commandLine "npm.cmd", "audit", "fix"
+		commandLine "npm.cmd", "install"
+	} else {
+		commandLine "npm", "audit", "fix"
+		commandLine "npm", "install"
+	}
 }
-
 
 
 tasks.named('test') {
